@@ -1,0 +1,212 @@
+[
+  {
+    "ticket_id": "TKT-1778506875038",
+    "school_name": "USA School",
+    "description": "I cannot login to Direct\n",
+    "ai_category": "Technical Issue",
+    "ai_priority": "High",
+    "ai_queue": "technical_support",
+    "final_priority": "High",
+    "sla_hours": 2,
+    "sla_deadline": "2026-05-11T15:41:15.039Z",
+    "status": "open",
+    "submitted_at": "2026-05-11T13:41:15.039Z",
+    "agent_assigned": null,
+    "summary": null,
+    "resolution": null
+  },
+  {
+    "ticket_id": "TKT-1778507284862",
+    "school_name": "International School of India",
+    "description": "I cannot submit entries",
+    "ai_category": "General Inquiry",
+    "ai_priority": "Low",
+    "ai_queue": "general_support",
+    "final_priority": "Low",
+    "sla_hours": 24,
+    "sla_deadline": "2026-05-12T13:48:04.862Z",
+    "status": "open",
+    "submitted_at": "2026-05-11T13:48:04.862Z",
+    "agent_assigned": null,
+    "summary": null,
+    "resolution": null
+  },
+  {
+    "ticket_id": "TKT-1778507540034",
+    "school_name": "Egypt British Council",
+    "description": "Do we know if we reached the programme fee waiver for this year?",
+    "ai_category": "General Inquiry",
+    "ai_priority": "Low",
+    "ai_queue": "general_support",
+    "final_priority": "Low",
+    "sla_hours": 24,
+    "sla_deadline": "2026-05-12T13:52:20.034Z",
+    "status": "open",
+    "submitted_at": "2026-05-11T13:52:20.034Z",
+    "agent_assigned": null,
+    "summary": null,
+    "resolution": null
+  },
+  {
+    "ticket_id": "TKT-1778514486319",
+    "school_name": "Tutor and Exams School",
+    "description": "Failure to cooperate in an investigation",
+    "ai_category": "General Inquiry",
+    "ai_priority": "Low",
+    "ai_queue": "general_support",
+    "final_priority": "Low",
+    "sla_hours": 24,
+    "sla_deadline": "2026-05-12T15:48:06.319Z",
+    "status": "open",
+    "submitted_at": "2026-05-11T15:48:06.319Z",
+    "agent_assigned": null,
+    "summary": null,
+    "resolution": null
+  },
+  {
+    "ticket_id": "TKT-1778526393690",
+    "school_name": "International School of the Middle East",
+    "description": "Please help, we still have not received our invoice\n",
+    "ai_category": "Billing",
+    "ai_priority": "Medium",
+    "ai_queue": "finance_team",
+    "final_priority": "Urgent",
+    "sla_hours": 4,
+    "sla_deadline": "2026-05-11T23:06:33.690Z",
+    "status": "open",
+    "submitted_at": "2026-05-11T19:06:33.690Z",
+    "agent_assigned": null,
+    "summary": null,
+    "resolution": null,
+    "messages": [
+      {
+        "sender": "school",
+        "text": "Please help, we still have not received our invoice\n",
+        "timestamp": "2026-05-11T19:06:33.690Z"
+      },
+      {
+        "sender": "agent",
+        "text": "Hi",
+        "timestamp": "2026-05-11T20:13:21.419Z"
+      },
+      {
+        "sender": "agent",
+        "text": "Dear International School of the Middle East team,\n\nThank you for reaching out regarding your billing concern. Our finance team has been notified and will review your account within 4 hours.\n\nIf this is urgent, please reference ticket ID: TKT-1778526393690.\n\nBest regards,\nFinance Support Team",
+        "timestamp": "2026-05-11T20:13:37.130Z"
+      }
+    ],
+    "last_updated": "2026-05-11T20:13:37.130Z",
+    "escalation_reason": "Auto-escalated: keywords detected → [urgent]",
+    "escalated_at": "2026-05-11T20:13:37.130Z"
+  },
+  {
+    "ticket_id": "TKT-1778527095307",
+    "school_name": "Egypt School",
+    "description": "my student wants to know the result for his exams\n",
+    "ai_category": "Results Inquiry",
+    "ai_priority": "Medium",
+    "ai_queue": "school_support",
+    "final_priority": "Medium",
+    "sla_hours": 6,
+    "sla_deadline": "2026-05-12T01:18:15.307Z",
+    "status": "open",
+    "submitted_at": "2026-05-11T19:18:15.307Z",
+    "agent_assigned": null,
+    "summary": null,
+    "resolution": null
+  },
+  {
+    "ticket_id": "TKT-1778527838371",
+    "school_name": "India Ticket",
+    "description": "Paid invoice but no access to School Support Hub",
+    "ai_category": "Billing",
+    "ai_priority": "Medium",
+    "ai_queue": "finance_team",
+    "final_priority": "Urgent",
+    "sla_hours": 4,
+    "sla_deadline": "2026-05-11T23:30:38.371Z",
+    "status": "open",
+    "submitted_at": "2026-05-11T19:30:38.371Z",
+    "agent_assigned": null,
+    "summary": null,
+    "resolution": null,
+    "messages": [
+      {
+        "sender": "school",
+        "text": "Paid invoice but no access to School Support Hub",
+        "timestamp": "2026-05-11T19:30:38.371Z"
+      },
+      {
+        "sender": "agent",
+        "text": "Dear India Ticket team,\n\nThank you for reaching out regarding your billing concern. Our finance team has been notified and will review your account within 4 hours.\n\nIf this is urgent, please reference ticket ID: TKT-1778527838371.\n\nBest regards,\nFinance Support Team",
+        "timestamp": "2026-05-11T19:37:27.844Z"
+      }
+    ],
+    "last_updated": "2026-05-11T19:37:27.844Z",
+    "escalation_reason": "Auto-escalated: keywords detected → [urgent]",
+    "escalated_at": "2026-05-11T19:37:27.844Z"
+  },
+  {
+    "ticket_id": "TKT-1778529425668",
+    "school_name": "Egypt school ",
+    "description": "We have already paid the invoice a month ago but we still cannot access the School Support Hub and Direct. Please help",
+    "ai_category": "Technical Issue",
+    "ai_priority": "High",
+    "ai_queue": "technical_support",
+    "final_priority": "Urgent",
+    "sla_hours": 2,
+    "sla_deadline": "2026-05-11T21:57:05.668Z",
+    "status": "open",
+    "submitted_at": "2026-05-11T19:57:05.668Z",
+    "agent_assigned": null,
+    "summary": null,
+    "resolution": null,
+    "messages": [
+      {
+        "sender": "school",
+        "text": "We have already paid the invoice a month ago but we still cannot access the School Support Hub and Direct. Please help",
+        "timestamp": "2026-05-11T19:57:05.668Z"
+      },
+      {
+        "sender": "agent",
+        "text": "Dear Egypt na Potpot,\n\nThank you for contacting us. We have received your technical support request and our team is investigating urgently.\n\nExpected resolution: 2 hours.\n\nWe will keep you updated. Please do not submit duplicate tickets.\n\nBest regards,\nSupport Team",
+        "timestamp": "2026-05-11T20:38:07.038Z"
+      }
+    ],
+    "last_updated": "2026-05-11T20:38:07.038Z",
+    "escalation_reason": "Auto-escalated: keywords detected → [urgent]",
+    "escalated_at": "2026-05-11T20:38:07.038Z"
+  },
+  {
+    "ticket_id": "TKT-1778531391489",
+    "school_name": "IN908",
+    "subject": "URGENT: Billing Discrepancy Escalation – Invoice #GUP-45821",
+    "description": "Dear GUP Finance Team,\nGood day.\nWe are writing to seek clarification regarding Invoice #GUP-45821 dated 15 March 2026. Upon review, our Finance Department has identified a discrepancy in the total billed amount for student registrations under the A-Level programme.\nSpecifically:\n\nWe registered 148 students, but the invoice reflects billing for 162 students\nWe have attached our internal registration log and submission confirmation for your reference\n\nWe kindly request a reconciliation of this discrepancy and a revised invoice at your earliest convenience, as this impacts our internal budget approvals.\nRegards,\nMaria Santos\nFinance Officer\nSt. Augustine International School\n\nEmail 2 – Initial Response (Provider → School)\nSubject: RE: Clarification Required: Invoice #GUP-45821 Overcharge\nDear Ms. Santos,\nThank you for your email.\nBased on our system records, the invoice was generated from the final submission data received on 10 March 2026. According to our logs, 162 student entries were processed.\nWe recommend verifying if multiple uploads or duplicate entries may have occurred during submission. If you can provide further details, we would be happy to review.\nKind regards,\nJames Holloway\nBilling Support\nGlobal University Partnerships\n\nEmail 3 – Escalation (School → Provider, Firmer Tone)\nSubject: URGENT: Billing Discrepancy Escalation – Invoice #GUP-45821\nDear James,\nThank you for your response.\nWe have thoroughly reviewed our submission logs and can confirm:\n\nOnly one final submission was made\nNo duplicate student entries exist in our system\nThe attached confirmation report (timestamped 10 March 2026) shows exactly 148 students\n\nGiven this, we strongly believe the discrepancy originates from your system.\nThis matter is time-sensitive, as payment approvals are currently on hold. We request this case be escalated to your technical/billing investigation team immediately.\nWe expect a corrected invoice within 3 working days.\nRegards,\nMaria Santos\n\nEmail 4 – Internal Escalation Acknowledgement (Provider → School)\nSubject: RE: URGENT: Billing Discrepancy Escalation – Invoice #GUP-45821\nDear Ms. Santos,\nThank you for your patience.\nWe have escalated your case to our Billing Investigation Team for further review. Initial findings suggest there may have been:\n\nA system sync error resulting in duplicated entries during processing\n\nWe are currently conducting a full audit and will revert with a resolution shortly.\nKind regards,\nJames Holloway\n\nEmail 5 – Delayed Follow-up (School → Provider, Pressure Increases)\nSubject: Follow-Up: Outstanding Billing Issue – Invoice #GUP-45821\nDear James,\nWe note that 5 working days have passed since your last update.\nThis delay is causing significant disruption to our financial processes. Unless this issue is resolved within the next 48 hours, we will need to escalate this matter to our Regional Partnership Manager.\nPlease provide a status update urgently.\nRegards,\nMaria Santos\n\nEmail 6 – Senior Escalation Response (Provider Manager → School)\nSubject: Resolution Update: Invoice #GUP-45821\nDear Ms. Santos,\nMy name is Clara Bennett, Finance Operations Manager at GUP. I have taken ownership of this case.\nOur investigation has confirmed:\n\nA data duplication bug in our ingestion system\n14 records were incorrectly counted twice\n\nWe sincerely apologize for the inconvenience caused.\nActions taken:\n\nRevised Invoice #GUP-45821-A (attached)\nCredit adjustment applied\nBug fix deployed to prevent recurrence\n\nPlease confirm once the revised invoice is acceptable.\nKind regards,\nClara Bennett\nFinance Operations Manager\n\nEmail 7 – Closure (School → Provider)\nSubject: RE: Resolution Update: Invoice #GUP-45821\nDear Clara,\nThank you for your prompt resolution and transparency.\nWe confirm that the revised invoice is accurate, and we will proceed with payment accordingly.\nWe appreciate your support in resolving this matter.\nRegards,\nMaria Santos\n",
+    "ai_category": "Billing",
+    "ai_priority": "Medium",
+    "ai_queue": "finance_team",
+    "final_priority": "Urgent",
+    "sla_hours": 4,
+    "sla_deadline": "2026-05-12T00:29:51.489Z",
+    "status": "open",
+    "submitted_at": "2026-05-11T20:29:51.489Z",
+    "agent_assigned": null,
+    "summary": null,
+    "resolution": null,
+    "messages": [
+      {
+        "sender": "school",
+        "text": "Dear GUP Finance Team,\nGood day.\nWe are writing to seek clarification regarding Invoice #GUP-45821 dated 15 March 2026. Upon review, our Finance Department has identified a discrepancy in the total billed amount for student registrations under the A-Level programme.\nSpecifically:\n\nWe registered 148 students, but the invoice reflects billing for 162 students\nWe have attached our internal registration log and submission confirmation for your reference\n\nWe kindly request a reconciliation of this discrepancy and a revised invoice at your earliest convenience, as this impacts our internal budget approvals.\nRegards,\nMaria Santos\nFinance Officer\nSt. Augustine International School\n\nEmail 2 – Initial Response (Provider → School)\nSubject: RE: Clarification Required: Invoice #GUP-45821 Overcharge\nDear Ms. Santos,\nThank you for your email.\nBased on our system records, the invoice was generated from the final submission data received on 10 March 2026. According to our logs, 162 student entries were processed.\nWe recommend verifying if multiple uploads or duplicate entries may have occurred during submission. If you can provide further details, we would be happy to review.\nKind regards,\nJames Holloway\nBilling Support\nGlobal University Partnerships\n\nEmail 3 – Escalation (School → Provider, Firmer Tone)\nSubject: URGENT: Billing Discrepancy Escalation – Invoice #GUP-45821\nDear James,\nThank you for your response.\nWe have thoroughly reviewed our submission logs and can confirm:\n\nOnly one final submission was made\nNo duplicate student entries exist in our system\nThe attached confirmation report (timestamped 10 March 2026) shows exactly 148 students\n\nGiven this, we strongly believe the discrepancy originates from your system.\nThis matter is time-sensitive, as payment approvals are currently on hold. We request this case be escalated to your technical/billing investigation team immediately.\nWe expect a corrected invoice within 3 working days.\nRegards,\nMaria Santos\n\nEmail 4 – Internal Escalation Acknowledgement (Provider → School)\nSubject: RE: URGENT: Billing Discrepancy Escalation – Invoice #GUP-45821\nDear Ms. Santos,\nThank you for your patience.\nWe have escalated your case to our Billing Investigation Team for further review. Initial findings suggest there may have been:\n\nA system sync error resulting in duplicated entries during processing\n\nWe are currently conducting a full audit and will revert with a resolution shortly.\nKind regards,\nJames Holloway\n\nEmail 5 – Delayed Follow-up (School → Provider, Pressure Increases)\nSubject: Follow-Up: Outstanding Billing Issue – Invoice #GUP-45821\nDear James,\nWe note that 5 working days have passed since your last update.\nThis delay is causing significant disruption to our financial processes. Unless this issue is resolved within the next 48 hours, we will need to escalate this matter to our Regional Partnership Manager.\nPlease provide a status update urgently.\nRegards,\nMaria Santos\n\nEmail 6 – Senior Escalation Response (Provider Manager → School)\nSubject: Resolution Update: Invoice #GUP-45821\nDear Ms. Santos,\nMy name is Clara Bennett, Finance Operations Manager at GUP. I have taken ownership of this case.\nOur investigation has confirmed:\n\nA data duplication bug in our ingestion system\n14 records were incorrectly counted twice\n\nWe sincerely apologize for the inconvenience caused.\nActions taken:\n\nRevised Invoice #GUP-45821-A (attached)\nCredit adjustment applied\nBug fix deployed to prevent recurrence\n\nPlease confirm once the revised invoice is acceptable.\nKind regards,\nClara Bennett\nFinance Operations Manager\n\nEmail 7 – Closure (School → Provider)\nSubject: RE: Resolution Update: Invoice #GUP-45821\nDear Clara,\nThank you for your prompt resolution and transparency.\nWe confirm that the revised invoice is accurate, and we will proceed with payment accordingly.\nWe appreciate your support in resolving this matter.\nRegards,\nMaria Santos\n",
+        "timestamp": "2026-05-11T20:29:51.489Z"
+      },
+      {
+        "sender": "agent",
+        "text": "Dear IN908 team,\n\nThank you for reaching out regarding your billing concern. Our finance team has been notified and will review your account within 4 hours.\n\nIf this is urgent, please reference ticket ID: TKT-1778531391489.\n\nBest regards,\nFinance Support Team",
+        "timestamp": "2026-05-11T20:30:58.545Z"
+      }
+    ],
+    "last_updated": "2026-05-11T20:30:58.546Z",
+    "escalation_reason": "Auto-escalated: keywords detected → [urgent]",
+    "escalated_at": "2026-05-11T20:30:58.546Z"
+  }
+]

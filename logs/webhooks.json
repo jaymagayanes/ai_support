@@ -1,0 +1,104 @@
+[
+  {
+    "timestamp": "2026-05-11T19:37:27.848Z",
+    "event": "ticket.reply_received",
+    "target_url": "https://hooks.salesforce.com/simulate/zendesk-events",
+    "status": "delivered",
+    "payload": {
+      "ticket_id": "TKT-1778527838371",
+      "sender": "agent",
+      "escalated": true,
+      "message_count": 2
+    }
+  },
+  {
+    "timestamp": "2026-05-11T19:57:56.669Z",
+    "event": "crm.sync_success",
+    "ticket_id": "TKT-1778529425668",
+    "attempts": 1,
+    "crm_id": "SF-1778529476667"
+  },
+  {
+    "timestamp": "2026-05-11T19:58:02.237Z",
+    "event": "crm.sync_success",
+    "ticket_id": "TKT-1778529425668",
+    "attempts": 1,
+    "crm_id": "SF-1778529482237"
+  },
+  {
+    "timestamp": "2026-05-11T19:58:08.193Z",
+    "event": "crm.sync_success",
+    "ticket_id": "TKT-1778529425668",
+    "attempts": 3,
+    "crm_id": "SF-1778529488192"
+  },
+  {
+    "timestamp": "2026-05-11T20:13:21.423Z",
+    "event": "ticket.reply_received",
+    "target_url": "https://hooks.salesforce.com/simulate/zendesk-events",
+    "status": "delivered",
+    "payload": {
+      "ticket_id": "TKT-1778526393690",
+      "sender": "agent",
+      "escalated": false,
+      "message_count": 2
+    }
+  },
+  {
+    "timestamp": "2026-05-11T20:13:37.137Z",
+    "event": "ticket.reply_received",
+    "target_url": "https://hooks.salesforce.com/simulate/zendesk-events",
+    "status": "delivered",
+    "payload": {
+      "ticket_id": "TKT-1778526393690",
+      "sender": "agent",
+      "escalated": true,
+      "message_count": 3
+    }
+  },
+  {
+    "timestamp": "2026-05-11T20:30:58.550Z",
+    "event": "ticket.reply_received",
+    "target_url": "https://hooks.salesforce.com/simulate/zendesk-events",
+    "status": "delivered",
+    "payload": {
+      "ticket_id": "TKT-1778531391489",
+      "sender": "agent",
+      "escalated": true,
+      "message_count": 2
+    }
+  },
+  {
+    "timestamp": "2026-05-11T20:31:32.837Z",
+    "event": "crm.sync_success",
+    "ticket_id": "TKT-1778531391489",
+    "attempts": 1,
+    "crm_id": "SF-1778531492836"
+  },
+  {
+    "timestamp": "2026-05-11T20:31:35.557Z",
+    "event": "crm.sync_success",
+    "ticket_id": "TKT-1778531391489",
+    "attempts": 1,
+    "crm_id": "SF-1778531495557"
+  },
+  {
+    "timestamp": "2026-05-11T20:31:39.392Z",
+    "event": "crm.sync_success",
+    "ticket_id": "TKT-1778531391489",
+    "attempts": 3,
+    "crm_id": "SF-1778531499391"
+  },
+  {
+    "timestamp": "2026-05-11T20:38:07.040Z",
+    "event": "ticket.reply_received",
+    "target_url": "https://hooks.salesforce.com/simulate/zendesk-events",
+    "status": "delivered",
+    "payload": {
+      "ticket_id": "TKT-1778529425668",
+      "sender": "agent",
+      "escalated": true,
+      "message_count": 2
+    }
+  }
+]

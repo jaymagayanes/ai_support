@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Agent Dashboard — Support Operations</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: #f4f5f7;
+        color: #172b4d;
+      }
+
+      /* ── Header ─────────────────────────────── */
+      .header {
+        background: #0052cc;
+        color: white;
+        padding: 14px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 6px rgba(0, 82, 204, 0.3);
+      }
+      .header h1 {
+        font-size: 17px;
+        font-weight: 600;
+      }
+      .header span {
+        font-size: 12px;
+        opacity: 0.75;
+      }
+
+      /* ── Stats ──────────────────────────────── */
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 14px;
+        padding: 18px 24px;
+      }
+      .stat-card {
+        background: white;
+        border-radius: 6px;
+        padding: 14px 16px;
+        border-left: 4px solid #0052cc;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      }
+      .stat-card.open {
+        border-left-color: #00875a;
+      }
+      .stat-card.urgent {
+        border-left-color: #de350b;
+      }
+      .stat-card.breached {
+        border-left-color: #ff8800;
+      }
+      .stat-card.webhook {
+        border-left-color: #6554c0;
+      }
+      .stat-number {
+        font-size: 26px;
+        font-weight: 700;
+        margin-bottom: 2px;
+      }
+      .stat-label {
+        font-size: 11px;
+        color: #6b778c;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+      }
+
+      /* ── Main layout ────────────────────────── */
+      .main {
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: 14px;
+        padding: 0 24px 24px;
+      }
+      .panel {
+        background: white;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      }
+      .panel-header {
+        padding: 13px 16px;
+        border-bottom: 1px solid #ebecf0;
+        font-weight: 600;
+        font-size: 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      /* ── Ticket table ───────────────────────── */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      th {
+        text-align: left;
+        padding: 9px 12px;
+        color: #6b778c;
+        font-size: 11px;
+        text-transform: uppercase;
+        border-bottom: 2px solid #ebecf0;
+        background: #fafbff;
+      }
+      td {
+        padding: 11px 12px;
+        border-bottom: 1px solid #f4f5f7;
+        vertical-align: middle;
+      }
+      tr.ticket-row:hover td {
+        background: #f0f4ff;
+        cursor: pointer;
+      }
+      tr.ticket-row:hover .subject-link {
+        text-decoration: underline;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 3px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+      .badge-urgent {
+        background: #ffebe6;
+        color: #bf2600;
+      }
+      .badge-high {
+        background: #fff0b3;
+        color: #974f0c;
+      }
+      .badge-medium {
+        background: #e3fcef;
+        color: #006644;
+      }
+      .badge-low {
+        background: #f4f5f7;
+        color: #6b778c;
+      }
+      .badge-tech {
+        background: #e6f2ff;
+        color: #0747a6;
+      }
+      .badge-billing {
+        background: #fffae6;
+        color: #7a6000;
+      }
+      .badge-results {
+        background: #e3fcef;
+        color: #006644;
+      }
+      .badge-reg {
+        background: #eae6ff;
+        color: #403294;
+      }
+
+      .sla-ok {
+        color: orange;
+        font-size: 12px;
+      }
+      .sla-warn {
+        color: #ff8b00;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .sla-breach {
+        color: #de350b;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      /* Subject cell with hover tooltip */
+      .subject-cell {
+        max-width: 220px;
+      }
+      .subject-link {
+        color: #0052cc;
+        font-weight: 600;
+        font-size: 13px;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .subject-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+      }
+      .subject-tooltip {
+        display: none;
+        position: absolute;
+        z-index: 100;
+        background: #172b4d;
+        color: white;
+        font-size: 12px;
+        font-weight: 400;
+        padding: 8px 12px;
+        border-radius: 5px;
+        width: 280px;
+        line-height: 1.5;
+        top: 26px;
+        left: 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        pointer-events: none;
+      }
+      .subject-tooltip::before {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: 12px;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid #172b4d;
+      }
+      .subject-wrapper:hover .subject-tooltip {
+        display: block;
+      }
+      .school-name {
+        font-size: 12px;
+        color: #6b778c;
+        margin-top: 2px;
+      }
+
+      /* Right panel tabs */
+      .tab-bar {
+        display: flex;
+        border-bottom: 1px solid #ebecf0;
+        padding: 0 12px;
+      }
+      .tab {
+        padding: 9px 13px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        color: #6b778c;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -1px;
+      }
+      .tab.active {
+        color: #0052cc;
+        border-bottom-color: #0052cc;
+      }
+      .tab-content {
+        display: none;
+        max-height: 480px;
+        overflow-y: auto;
+      }
+      .tab-content.active {
+        display: block;
+      }
+
+      .log-item {
+        padding: 10px 14px;
+        border-bottom: 1px solid #f4f5f7;
+        font-size: 12px;
+      }
+      .log-item:last-child {
+        border-bottom: none;
+      }
+      .log-time {
+        color: #6b778c;
+        font-size: 11px;
+        margin-bottom: 2px;
+      }
+      .log-action {
+        font-weight: 600;
+        color: #172b4d;
+      }
+      .log-detail {
+        color: #6b778c;
+        margin-top: 1px;
+      }
+      .log-audit {
+        color: #6554c0;
+      }
+      .log-webhook {
+        color: #00875a;
+      }
+
+      .refresh-btn {
+        font-size: 12px;
+        padding: 6px 12px;
+        background: #0052cc;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .refresh-btn:hover {
+        background: #0065ff;
+      }
+      .empty {
+        text-align: center;
+        padding: 28px;
+        color: #6b778c;
+        font-size: 13px;
+      }
+
+      /* ══ OVERLAY ════════════════════════════════ */
+
+      .overlay-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(9, 30, 66, 0.6);
+        z-index: 200;
+        backdrop-filter: blur(2px);
+      }
+      .overlay-backdrop.active {
+        display: block;
+      }
+
+      .ticket-overlay {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 94vw;
+        max-width: 1120px;
+        height: 86vh;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+        z-index: 300;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .ticket-overlay.active {
+        display: flex;
+        animation: slideUp 0.2s ease;
+      }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translate(-50%, calc(-50% + 20px));
+        }
+        to {
+          opacity: 1;
+          transform: translate(-50%, -50%);
+        }
+      }
+
+      /* Overlay header */
+      .overlay-header {
+        background: #0052cc;
+        color: white;
+        padding: 14px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-shrink: 0;
+      }
+      .overlay-ticket-id {
+        font-size: 11px;
+        opacity: 0.7;
+        font-family: monospace;
+        margin-bottom: 3px;
+      }
+      .overlay-subject {
+        font-size: 16px;
+        font-weight: 700;
+      }
+      .overlay-school {
+        font-size: 12px;
+        opacity: 0.8;
+        margin-top: 3px;
+      }
+      .overlay-meta {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .overlay-close {
+        background: rgba(255, 255, 255, 0.15);
+        border: none;
+        color: white;
+        font-size: 16px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-left: 12px;
+        transition: background 0.15s;
+      }
+      .overlay-close:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      /* Three-column body */
+      .overlay-body {
+        display: grid;
+        grid-template-columns: 260px 1fr 280px;
+        flex: 1;
+        overflow: hidden;
+      }
+      .overlay-col {
+        padding: 16px;
+        overflow-y: auto;
+        border-right: 1px solid #ebecf0;
+        display: flex;
+        flex-direction: column;
+      }
+      .overlay-col:last-child {
+        border-right: none;
+      }
+
+      .col-title {
+        font-size: 11px;
+        font-weight: 700;
+        color: #6b778c;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #ebecf0;
+        flex-shrink: 0;
+      }
+
+      /* Left col */
+      .summary-box {
+        background: #e6f2ff;
+        border-left: 3px solid #0052cc;
+        border-radius: 4px;
+        padding: 12px;
+        font-size: 13px;
+        line-height: 1.6;
+        color: #172b4d;
+        margin-bottom: 14px;
+      }
+      .escalation-box {
+        background: #ffebe6;
+        border-left: 3px solid #de350b;
+        border-radius: 4px;
+        padding: 10px 12px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #bf2600;
+        margin-bottom: 12px;
+      }
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        padding: 6px 0;
+        border-bottom: 1px solid #f4f5f7;
+      }
+      .info-label {
+        color: #6b778c;
+      }
+      .info-value {
+        font-weight: 600;
+        color: #172b4d;
+        text-align: right;
+      }
+
+      /* Centre col */
+      .thread-scroll {
+        flex: 1;
+        overflow-y: auto;
+        margin-bottom: 12px;
+      }
+      .thread-msg {
+        padding: 10px 12px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+      .thread-msg.school {
+        background: #f4f5f7;
+        border-left: 3px solid #6b778c;
+      }
+      .thread-msg.agent {
+        background: #e3fcef;
+        border-left: 3px solid #00875a;
+      }
+      .thread-msg-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+      }
+      .thread-sender {
+        font-weight: 700;
+        font-size: 12px;
+      }
+      .thread-sender.agent {
+        color: #006644;
+      }
+      .thread-sender.school {
+        color: #42526e;
+      }
+      .thread-time {
+        font-size: 11px;
+        color: #6b778c;
+      }
+
+      .reply-area {
+        flex-shrink: 0;
+        border-top: 1px solid #ebecf0;
+        padding-top: 12px;
+      }
+      .reply-area textarea {
+        width: 100%;
+        min-height: 72px;
+        padding: 10px;
+        border: 1px solid #dfe1e6;
+        border-radius: 4px;
+        font-size: 13px;
+        resize: vertical;
+        font-family: inherit;
+        margin-bottom: 8px;
+      }
+      .reply-area textarea:focus {
+        outline: none;
+        border-color: #0052cc;
+        box-shadow: 0 0 0 2px rgba(0, 82, 204, 0.15);
+      }
+      .reply-buttons {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        font-size: 12px;
+        padding: 7px 14px;
+        border-radius: 4px;
+        cursor: pointer;
+        border: 1px solid #dfe1e6;
+        background: white;
+        color: #172b4d;
+        font-weight: 500;
+        transition: all 0.15s;
+      }
+      .btn:hover {
+        background: #f4f5f7;
+      }
+      .btn.primary {
+        background: #0052cc;
+        color: white;
+        border-color: #0052cc;
+      }
+      .btn.primary:hover {
+        background: #0065ff;
+      }
+      .btn.ghost {
+        background: #f4f5f7;
+      }
+
+      /* Right col */
+      .response-box {
+        background: #e3fcef;
+        border-left: 3px solid #00875a;
+        border-radius: 4px;
+        padding: 12px;
+        font-size: 13px;
+        line-height: 1.6;
+        color: #172b4d;
+        white-space: pre-wrap;
+        word-break: break-word;
+        margin-bottom: 12px;
+        flex: 1;
+        overflow-y: auto;
+      }
+      .use-btn {
+        width: 100%;
+        padding: 9px;
+        background: #00875a;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: background 0.15s;
+      }
+      .use-btn:hover {
+        background: #006644;
+      }
+
+      .crm-status {
+        margin-top: 8px;
+        font-size: 12px;
+        padding: 7px 10px;
+        border-radius: 4px;
+        display: none;
+      }
+      .crm-status.success {
+        background: #e3fcef;
+        color: #006644;
+        display: block;
+      }
+      .crm-status.error {
+        background: #ffebe6;
+        color: #bf2600;
+        display: block;
+      }
+      .crm-status.loading {
+        background: #f4f5f7;
+        color: #6b778c;
+        display: block;
+      }
+
+      .loading-overlay {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: #6b778c;
+        font-size: 14px;
+        grid-column: 1 / -1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>🎓 Support Operations — Agent Dashboard</h1>
+      <span id="last-refresh">Loading...</span>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-number" id="stat-total">—</div>
+        <div class="stat-label">Total tickets</div>
+      </div>
+      <div class="stat-card open">
+        <div class="stat-number" id="stat-open">—</div>
+        <div class="stat-label">Open</div>
+      </div>
+      <div class="stat-card urgent">
+        <div class="stat-number" id="stat-urgent">—</div>
+        <div class="stat-label">Urgent / Escalated</div>
+      </div>
+      <div class="stat-card breached">
+        <div class="stat-number" id="stat-breached">—</div>
+        <div class="stat-label">SLA breached</div>
+      </div>
+      <div class="stat-card webhook">
+        <div class="stat-number" id="stat-webhooks">—</div>
+        <div class="stat-label">Webhooks fired</div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="panel">
+        <div class="panel-header">
+          Ticket queue
+          <button class="refresh-btn" onclick="loadDashboard()">
+            ↻ Refresh
+          </button>
+        </div>
+        <div style="padding: 0 12px 12px">
+          <table>
+            <thead>
+              <tr>
+                <th>Ticket ID</th>
+                <th>Subject / School</th>
+                <th>Category</th>
+                <th>Priority</th>
+                <th>SLA</th>
+              </tr>
+            </thead>
+            <tbody id="ticket-table-body">
+              <tr>
+                <td colspan="5" class="empty">Loading tickets...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel" style="overflow: hidden">
+        <div class="panel-header" style="display: block; padding-bottom: 0">
+          <div style="padding: 0 4px 10px; font-weight: 600; font-size: 14px">
+            Operations log
+          </div>
+          <div class="tab-bar">
+            <div class="tab active" onclick="switchTab('automation')">
+              Automation
+            </div>
+            <div class="tab" onclick="switchTab('audit')">Audit trail</div>
+            <div class="tab" onclick="switchTab('webhooks')">Webhooks</div>
+          </div>
+        </div>
+        <div id="tab-automation" class="tab-content active">
+          <div class="empty">Loading...</div>
+        </div>
+        <div id="tab-audit" class="tab-content">
+          <div class="empty">Loading...</div>
+        </div>
+        <div id="tab-webhooks" class="tab-content">
+          <div class="empty">Loading...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Backdrop -->
+    <div
+      class="overlay-backdrop"
+      id="overlayBackdrop"
+      onclick="closeOverlay()"
+    ></div>
+
+    <!-- Ticket detail overlay -->
+    <div class="ticket-overlay" id="ticketOverlay">
+      <div class="overlay-header">
+        <div style="flex: 1">
+          <div class="overlay-ticket-id" id="ov-ticket-id">—</div>
+          <div class="overlay-subject" id="ov-subject">Loading...</div>
+          <div class="overlay-school" id="ov-school">—</div>
+          <div class="overlay-meta" id="ov-meta"></div>
+        </div>
+        <button class="overlay-close" onclick="closeOverlay()">✕</button>
+      </div>
+      <div class="overlay-body" id="overlay-body">
+        <div class="loading-overlay">Loading ticket details...</div>
+      </div>
+    </div>
+
+    <script>
+      // ── Helpers ──────────────────────────────────────────────
+
+      function priorityBadge(p) {
+        const map = {
+          Urgent: 'urgent',
+          High: 'high',
+          Medium: 'medium',
+          Low: 'low',
+        };
+        return `<span class="badge badge-${map[p] || 'low'}">${
+          p || '—'
+        }</span>`;
+      }
+      function categoryBadge(c) {
+        const map = {
+          'Technical Issue': 'tech',
+          Billing: 'billing',
+          'Results Inquiry': 'results',
+          'Candidate Registration': 'reg',
+        };
+        return `<span class="badge badge-${map[c] || 'low'}">${
+          c || '—'
+        }</span>`;
+      }
+      function slaStatus(deadline) {
+        if (!deadline) return '<span class="sla-ok">—</span>';
+        const diff = new Date(deadline) - new Date();
+        const hrs = Math.round(diff / 3600000);
+        if (diff < 0)
+          return `<span class="sla-breach">⚠ Breached ${Math.abs(
+            hrs
+          )}h ago</span>`;
+        if (hrs < 1) return `<span class="sla-warn">⚡ &lt;1h left</span>`;
+        return `<span class="sla-ok">✓ ${hrs}h left</span>`;
+      }
+      function switchTab(name) {
+        document.querySelectorAll('.tab').forEach((t, i) => {
+          t.classList.toggle(
+            'active',
+            ['automation', 'audit', 'webhooks'][i] === name
+          );
+        });
+        document
+          .querySelectorAll('.tab-content')
+          .forEach((c) => c.classList.remove('active'));
+        document.getElementById('tab-' + name).classList.add('active');
+      }
+
+      // ── Ticket overlay ───────────────────────────────────────
+
+      async function openTicket(ticketId, ticketData) {
+        document.getElementById('overlayBackdrop').classList.add('active');
+        const overlay = document.getElementById('ticketOverlay');
+        overlay.classList.add('active');
+
+        document.getElementById('ov-ticket-id').textContent = ticketId;
+        document.getElementById('ov-subject').textContent =
+          ticketData.subject || 'Support Ticket';
+        document.getElementById('ov-school').textContent =
+          '🏫 ' + ticketData.school_name;
+        document.getElementById('ov-meta').innerHTML =
+          priorityBadge(ticketData.final_priority) +
+          ' ' +
+          categoryBadge(ticketData.ai_category) +
+          ' ' +
+          slaStatus(ticketData.sla_deadline);
+        document.getElementById('overlay-body').innerHTML =
+          '<div class="loading-overlay">⏳ Loading ticket details...</div>';
+
+        try {
+          const [summaryRes, responseRes, messagesRes] = await Promise.all([
+            fetch('/tickets/' + ticketId + '/summary'),
+            fetch('/tickets/' + ticketId + '/suggest-response'),
+            fetch('/tickets/' + ticketId + '/messages'),
+          ]);
+          const summary = await summaryRes.json();
+          const response = await responseRes.json();
+          const messages = await messagesRes.json();
+
+          const msgs = messages.messages || [];
+          const threadHTML = msgs.length
+            ? msgs
+                .map(
+                  (m) => `
+                <div class="thread-msg ${m.sender}">
+                  <div class="thread-msg-header">
+                    <span class="thread-sender ${m.sender}">${
+                    m.sender === 'agent' ? '👤 Agent' : '🏫 School'
+                  }</span>
+                    <span class="thread-time">${new Date(
+                      m.timestamp
+                    ).toLocaleString()}</span>
+                  </div>
+                  <div class="thread-text">${m.text}</div>
+                </div>`
+                )
+                .join('')
+            : '<div class="empty" style="padding:20px;">No messages yet</div>';
+
+          document.getElementById('overlay-body').innerHTML = `
+
+            <!-- LEFT: Summary + info -->
+            <div class="overlay-col">
+              <div class="col-title">🤖 AI Summary</div>
+              ${
+                messages.escalated
+                  ? `<div class="escalation-box">⚠ ${
+                      messages.escalation_reason || 'Auto-escalated'
+                    }</div>`
+                  : ''
+              }
+              <div class="summary-box">${summary.summary}</div>
+
+              <div class="col-title" style="margin-top:14px;">Ticket info</div>
+              <div class="info-row"><span class="info-label">Category</span><span class="info-value">${
+                summary.category || '—'
+              }</span></div>
+              <div class="info-row"><span class="info-label">Priority</span><span class="info-value">${
+                ticketData.final_priority || '—'
+              }</span></div>
+              <div class="info-row"><span class="info-label">Queue</span><span class="info-value">${
+                ticketData.ai_queue || '—'
+              }</span></div>
+              <div class="info-row"><span class="info-label">SLA</span><span class="info-value">${
+                ticketData.sla_hours || '—'
+              }h</span></div>
+              <div class="info-row"><span class="info-label">Messages</span><span class="info-value">${
+                msgs.length
+              }</span></div>
+
+              <div style="margin-top:auto;padding-top:16px;">
+                <button class="btn" style="width:100%;margin-bottom:6px;" onclick="syncCRM('${ticketId}')">🔗 Sync to Salesforce</button>
+                <button class="btn" style="width:100%;" onclick="syncWithRetry('${ticketId}')">🔄 Sync (retry logic)</button>
+                <div id="crm-status-${ticketId}" class="crm-status"></div>
+              </div>
+            </div>
+
+            <!-- CENTRE: Thread + reply -->
+            <div class="overlay-col">
+              <div class="col-title">💬 Conversation — ${msgs.length} message${
+            msgs.length !== 1 ? 's' : ''
+          }</div>
+              <div class="thread-scroll" id="thread-scroll-${ticketId}">${threadHTML}</div>
+              <div class="reply-area">
+                <textarea id="reply-text-${ticketId}" placeholder="Type your reply here..."></textarea>
+                <div class="reply-buttons">
+                  <button class="btn primary" onclick="sendAgentReply('${ticketId}')">✉ Send reply</button>
+                  <button class="btn ghost"   onclick="useTemplate('${ticketId}')">📋 Use suggested</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT: Suggested response -->
+            <div class="overlay-col">
+              <div class="col-title">✉ Suggested Response</div>
+              <div class="response-box" id="response-text-${ticketId}">${
+            response.suggested_response
+          }</div>
+              <button class="use-btn" onclick="useTemplate('${ticketId}')">↙ Copy to reply box</button>
+            </div>
+          `;
+
+          // Scroll thread to bottom
+          const ts = document.getElementById('thread-scroll-' + ticketId);
+          if (ts) ts.scrollTop = ts.scrollHeight;
+        } catch (err) {
+          document.getElementById(
+            'overlay-body'
+          ).innerHTML = `<div class="loading-overlay" style="color:#de350b;">Error: ${err.message}</div>`;
+        }
+      }
+
+      function closeOverlay() {
+        document.getElementById('overlayBackdrop').classList.remove('active');
+        document.getElementById('ticketOverlay').classList.remove('active');
+      }
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeOverlay();
+      });
+
+      // ── Actions ──────────────────────────────────────────────
+
+      function useTemplate(ticketId) {
+        const text = document.getElementById(
+          'response-text-' + ticketId
+        ).innerText;
+        const ta = document.getElementById('reply-text-' + ticketId);
+        ta.value = text;
+        ta.focus();
+      }
+
+      async function sendAgentReply(ticketId) {
+        const ta = document.getElementById('reply-text-' + ticketId);
+        const text = ta.value.trim();
+        if (!text) {
+          alert('Please type a reply first.');
+          return;
+        }
+
+        const res = await fetch('/tickets/' + ticketId + '/reply', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sender: 'agent', text }),
+        });
+        const data = await res.json();
+        ta.value = '';
+
+        if (data.escalated)
+          alert(
+            '⚠ Reply sent. Ticket auto-escalated:\n' + data.escalation_reason
+          );
+
+        // Re-fetch messages and rebuild thread only
+        const messagesRes = await fetch('/tickets/' + ticketId + '/messages');
+        const messages = await messagesRes.json();
+        const msgs = messages.messages || [];
+        const threadHTML = msgs
+          .map(
+            (m) => `
+          <div class="thread-msg ${m.sender}">
+            <div class="thread-msg-header">
+              <span class="thread-sender ${m.sender}">${
+              m.sender === 'agent' ? '👤 Agent' : '🏫 School'
+            }</span>
+              <span class="thread-time">${new Date(
+                m.timestamp
+              ).toLocaleString()}</span>
+            </div>
+            <div class="thread-text">${m.text}</div>
+          </div>`
+          )
+          .join('');
+
+        const ts = document.getElementById('thread-scroll-' + ticketId);
+        if (ts) {
+          ts.innerHTML = threadHTML;
+          ts.scrollTop = ts.scrollHeight;
+        }
+
+        // Update message count label
+        const colTitle = ts.previousElementSibling;
+        if (colTitle)
+          colTitle.textContent = `💬 Conversation — ${msgs.length} message${
+            msgs.length !== 1 ? 's' : ''
+          }`;
+
+        loadDashboard(); // refresh stats + log tabs
+      }
+
+      async function syncCRM(ticketId) {
+        const el = document.getElementById('crm-status-' + ticketId);
+        el.className = 'crm-status loading';
+        el.textContent = 'Syncing to Salesforce...';
+        const res = await fetch('/crm/sync/' + ticketId, { method: 'POST' });
+        const data = await res.json();
+        el.className = data.success ? 'crm-status success' : 'crm-status error';
+        el.textContent = data.success
+          ? '✓ Salesforce updated at ' + new Date().toLocaleTimeString()
+          : '✗ Sync failed: ' + data.error;
+      }
+
+      async function syncWithRetry(ticketId) {
+        const el = document.getElementById('crm-status-' + ticketId);
+        el.className = 'crm-status loading';
+        el.textContent = 'Attempting sync with retry logic...';
+        const res = await fetch('/crm/sync-with-retry/' + ticketId, {
+          method: 'POST',
+        });
+        const data = await res.json();
+        el.className = data.success ? 'crm-status success' : 'crm-status error';
+        el.textContent = data.success
+          ? `✓ Synced after ${data.attempts_needed} attempt${
+              data.attempts_needed > 1 ? 's' : ''
+            } — ${data.crm_id}`
+          : `✗ All retries failed. ${data.fallback_action}`;
+      }
+
+      // ── Load dashboard ───────────────────────────────────────
+
+      async function loadDashboard() {
+        document.getElementById('last-refresh').textContent =
+          'Last refreshed: ' + new Date().toLocaleTimeString();
+        try {
+          const [statsRes, webhooksRes, ticketsRes, logsRes, auditRes] =
+            await Promise.all([
+              fetch('/dashboard/stats'),
+              fetch('/logs/webhooks'),
+              fetch('/tickets/list'),
+              fetch('/logs'),
+              fetch('/logs/audit'),
+            ]);
+          const stats = await statsRes.json();
+          const webhooks = await webhooksRes.json();
+          const tickets = await ticketsRes.json();
+          const logs = await logsRes.json();
+          const audit = await auditRes.json();
+
+          document.getElementById('stat-total').textContent = stats.total || 0;
+          document.getElementById('stat-open').textContent = stats.open || 0;
+          document.getElementById('stat-urgent').textContent =
+            stats.urgent || 0;
+          document.getElementById('stat-breached').textContent =
+            stats.breached || 0;
+          document.getElementById('stat-webhooks').textContent = Array.isArray(
+            webhooks
+          )
+            ? webhooks.length
+            : 0;
+
+          const tbody = document.getElementById('ticket-table-body');
+          if (!tickets.length) {
+            tbody.innerHTML =
+              '<tr><td colspan="5" class="empty">No tickets yet. Submit one from the portal!</td></tr>';
+          } else {
+            const sorted = [...tickets].sort(
+              (a, b) => new Date(b.submitted_at) - new Date(a.submitted_at)
+            );
+            tbody.innerHTML = sorted
+              .map((t) => {
+                const subject =
+                  t.subject ||
+                  t.issue_type ||
+                  t.ai_category ||
+                  'Support Request';
+                const preview = t.description
+                  ? t.description.length > 130
+                    ? t.description.substring(0, 130) + '...'
+                    : t.description
+                  : 'Click to view details';
+                // Encode ticketData safely for onclick
+                const safeData = JSON.stringify(t)
+                  .replace(/'/g, "\\'")
+                  .replace(/"/g, '&quot;');
+                return `
+                <tr class="ticket-row" onclick="openTicket('${
+                  t.ticket_id
+                }', JSON.parse(this.dataset.ticket))"
+                    data-ticket='${JSON.stringify(t).replace(/'/g, '&#39;')}'>
+                  <td>
+                    <code style="font-size:11px;color:#6b778c;">${
+                      t.ticket_id
+                    }</code>
+                    ${
+                      t.escalation_reason
+                        ? '<br><span style="font-size:10px;color:#de350b;font-weight:600;">⚠ Escalated</span>'
+                        : ''
+                    }
+                  </td>
+                  <td class="subject-cell">
+                    <div class="subject-wrapper">
+                      <span class="subject-link">${subject}</span>
+                      <div class="subject-tooltip"><strong>Preview</strong><br>${preview}</div>
+                    </div>
+                    <div class="school-name">🏫 ${t.school_name}</div>
+                  </td>
+                  <td>${categoryBadge(t.ai_category)}</td>
+                  <td>${priorityBadge(t.final_priority)}</td>
+                  <td>${slaStatus(t.sla_deadline)}</td>
+                </tr>`;
+              })
+              .join('');
+          }
+
+          document.getElementById('tab-automation').innerHTML = logs.length
+            ? [...logs]
+                .reverse()
+                .slice(0, 20)
+                .map(
+                  (l) => `
+                <div class="log-item">
+                  <div class="log-time">${new Date(
+                    l.timestamp
+                  ).toLocaleTimeString()}</div>
+                  <div class="log-action">${l.action.replace(/_/g, ' ')}</div>
+                  <div class="log-detail">${l.ticket_id} → ${
+                    l.routed_to || l.ai_classification || ''
+                  }</div>
+                </div>`
+                )
+                .join('')
+            : '<div class="empty">No automation logs yet</div>';
+
+          document.getElementById('tab-audit').innerHTML = audit.length
+            ? [...audit]
+                .reverse()
+                .slice(0, 20)
+                .map(
+                  (a) => `
+                <div class="log-item">
+                  <div class="log-time">${new Date(
+                    a.timestamp
+                  ).toLocaleTimeString()}</div>
+                  <div class="log-action log-audit">🔒 ${a.action.replace(
+                    /_/g,
+                    ' '
+                  )}</div>
+                  <div class="log-detail">${a.ticket_id} | actor: ${a.actor}${
+                    a.escalated
+                      ? ' | <strong style="color:#de350b">escalated</strong>'
+                      : ''
+                  }</div>
+                </div>`
+                )
+                .join('')
+            : '<div class="empty">No audit entries yet.</div>';
+
+          document.getElementById('tab-webhooks').innerHTML = webhooks.length
+            ? [...webhooks]
+                .reverse()
+                .slice(0, 20)
+                .map(
+                  (w) => `
+                <div class="log-item">
+                  <div class="log-time">${new Date(
+                    w.timestamp
+                  ).toLocaleTimeString()}</div>
+                  <div class="log-action log-webhook">🔗 ${w.event}</div>
+                  <div class="log-detail">${w.ticket_id || ''} ${
+                    w.attempts ? '| attempts: ' + w.attempts : ''
+                  } ${w.crm_id ? '| CRM: ' + w.crm_id : ''}</div>
+                </div>`
+                )
+                .join('')
+            : '<div class="empty">No webhook events yet.</div>';
+        } catch (err) {
+          console.error('Dashboard error:', err);
+        }
+      }
+
+      loadDashboard();
+      setInterval(loadDashboard, 30000);
+    </script>
+  </body>
+</html>
