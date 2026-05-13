@@ -1,85 +1,125 @@
-# AI Sample Project: Zendesk | Operations 
+# AI Support Operations Demo
+**Zendesk-Style Ticket Automation & Workflow System**
 
-A demonstration of how artificial intelligence can be embedded directly into customer support operations to reduce repetitive manual work and accelerate response times.
+This project is my attempt at building a practical AI-assisted support operations workflow inspired by platforms like Zendesk and Salesforce.
 
-## 🎯 Project Goal
+Instead of focusing on "hype AI," I wanted to explore how automation can realistically help support teams reduce repetitive work, improve response times, and organize operations more efficiently.
 
-This project showcases a practical approach to AI-powered support automation: **classify incoming tickets intelligently, auto-generate summaries for agents, and suggest contextual responses** — all integrated into a real support workflow environment.
+The system classifies incoming tickets, generates summaries for agents, suggests responses, routes issues to the correct queue, and simulates CRM synchronization — all within a lightweight full-stack environment.
 
-The intent is to demonstrate how modern CX platforms (Zendesk, Salesforce) can leverage AI outputs to improve agent productivity without replacing human judgment.
+## 🎯 Why I Built This
+
+I wanted to demonstrate how AI can be integrated into real operational workflows without overengineering everything or relying entirely on expensive external APIs.
+
+A lot of support operations still involve repetitive manual tasks:
+
+- Reading long tickets
+- Categorizing requests
+- Routing issues manually
+- Writing the same responses repeatedly
+- Syncing records between systems
+
+This project automates those repetitive layers while still keeping humans in control of final decisions.
+
+The goal was not to replace agents — it was to reduce friction so agents can spend more time solving actual problems.
 
 ## ✨ What This Project Demonstrates
 
-### 1. **Rule-Based AI Classification (No LLM Dependency)**
-Instead of relying on external AI APIs, this uses deterministic rule engines to categorize tickets. This shows understanding of:
-- Cost-effective automation strategies
-- When lightweight logic outperforms heavy AI
-- Designing systems that gracefully degrade without third-party services
+### 1. Rule-Based AI Classification
 
-### 2. **API & Integration Design**
-Built with REST principles in mind, the system models the kind of integrations Jay works on daily:
-- Clean endpoint design for third-party integration
-- Webhook-ready architecture
-- Data transformation for downstream systems (Salesforce sync)
-- Proper error handling and response schemas
+Instead of connecting directly to an LLM, I built a deterministic rule engine that classifies support tickets based on keywords and routing logic.
 
-### 3. **Workflow Automation**
-Shows how to automate the end-to-end support lifecycle:
-- Ticket intake and intelligent routing
-- Auto-generated agent briefings (summarization module)
-- Pre-written response suggestions (templating engine)
-- Duplicate detection to prevent manual redundancy
+I intentionally chose this approach because:
 
-### 4. **Data Pipeline & Transformation**
-Demonstrates practical skills in:
-- JSON data manipulation
-- File-based persistence
-- Log aggregation and audit trails
-- CRM data mapping and sync patterns
+- It's cheaper to run
+- Easier to maintain
+- Predictable and testable
+- Doesn't break if third-party AI services go down
 
-### 5. **Frontend-Backend Integration**
-Three distinct interfaces showing full-stack thinking:
-- Customer-facing portal
-- Agent-facing dashboard
-- Administrative analytics view
+This demonstrates how lightweight automation can sometimes outperform "heavy AI" depending on the use case.
 
-## 🚀 Running the Demo
+### 2. API & Integration Design
 
-This project is fully self-contained and ready to run locally without external API credentials.
+I structured the backend around REST-style integrations similar to the kinds of systems used in support operations environments.
 
-### Quick Start
+The project includes:
+
+- Clean API endpoint structure
+- Webhook-style architecture
+- JSON-based data transformation
+- Simulated CRM synchronization
+- Error handling patterns
+- Modular workflow design
+
+The idea was to mimic how systems like Zendesk and Salesforce communicate internally across operational pipelines.
+
+### 3. Workflow Automation
+
+The project automates the lifecycle of a support ticket from intake to routing.
+
+That includes:
+
+- Ticket creation
+- AI-based classification
+- Priority assignment
+- SLA calculation
+- Duplicate detection
+- Auto-generated summaries
+- Suggested responses
+- CRM synchronization
+
+I wanted the workflow to feel similar to a real support operations environment instead of just being a simple CRUD app.
+
+### 4. Frontend + Backend Integration
+
+I built multiple interfaces to simulate different user perspectives within the same operational ecosystem:
+
+- Customer support portal
+- Agent dashboard
+- Administrative analytics dashboard
+
+This helped me demonstrate both backend logic and frontend integration in one project.
+
+## 🚀 Running the Project
+
+The project is fully self-contained and can run locally without external API credentials.
+
+**Quick Start:**
 
 ```bash
-# 1. Clone or extract the repository
+# Clone the repository
 git clone https://github.com/jaymagayanes/ai_support
+
+# Open the project
 cd ai_support
 
-# 2. Install dependencies
+# Install dependencies
 npm install
 
-# 3. Start the server
+# Run the server
 node index.js
-
-# Server runs on http://localhost:3000
 ```
 
-### Access the Interfaces
+Server runs on: http://localhost:3000
 
-- **Support Portal** (customer-facing): http://localhost:3000/portal.html
-- **Agent Dashboard** (internal): http://localhost:3000/agent-dashboard.html  
-- **Admin Dashboard** (analytics): http://localhost:3000/dashboard.html
+## 🖥️ Available Interfaces
 
-**Note**: The system uses JSON file storage for data persistence. All ticket and automation data is stored locally in the `/data` and `/logs` directories.
+**Customer Portal**
+http://localhost:3000/portal.html
+
+**Agent Dashboard**
+http://localhost:3000/agent-dashboard.html
+
+**Admin Dashboard**
+http://localhost:3000/dashboard.html
 
 ## 📋 API Endpoints
 
-### Ticket Management
+**Create Ticket**
+`POST /tickets/create`
 
-#### Create Ticket
-```http
-POST /tickets/create
-Content-Type: application/json
-
+Example body:
+```json
 {
   "school_name": "Lincoln High School",
   "issue_type": "Technical Issue",
@@ -89,217 +129,110 @@ Content-Type: application/json
 }
 ```
 
-**Response:**
+**Get All Tickets**
+`GET /tickets/list`
+
+Returns all stored tickets.
+
+**Check Duplicate Tickets**
+`POST /tickets/check-duplicate`
+
+Example body:
 ```json
-{
-  "success": true,
-  "ticket_id": "TKT-1715640000123",
-  "message": "Ticket created and routed to technical_support",
-  "ai_insights": {
-    "category": "Technical Issue",
-    "priority": "High",
-    "queue": "technical_support",
-    "sla_hours": 2
-  }
-}
-```
-
-#### Get All Tickets
-```http
-GET /tickets/list
-```
-
-Returns an array of all tickets with full details.
-
-#### Check for Duplicates
-```http
-POST /tickets/check-duplicate
-Content-Type: application/json
-
 {
   "school_name": "Lincoln High School",
   "description": "Student unable to access portal"
 }
 ```
 
-**Response:**
-```json
-{
-  "duplicate": false,
-  "existing_ticket_id": null,
-  "message": "No duplicate detected"
-}
-```
+**Generate Ticket Summary**
+`GET /tickets/{ticket_id}/summary`
 
-#### Get Ticket Summary
-```http
-GET /tickets/{ticket_id}/summary
-```
+**Generate Suggested Response**
+`GET /tickets/{ticket_id}/suggest-response`
 
-**Response:**
-```json
-{
-  "success": true,
-  "ticket_id": "TKT-1715640000123",
-  "summary": "Technical issue from Lincoln High School regarding student portal access. High priority - requires urgent attention.",
-  "category": "Technical Issue",
-  "priority": "High",
-  "school": "Lincoln High School",
-  "generated_at": "2024-05-13T12:00:00.000Z"
-}
-```
+**CRM Sync**
+`POST /crm/sync/{ticket_id}`
 
-#### Get Suggested Response
-```http
-GET /tickets/{ticket_id}/suggest-response
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "ticket_id": "TKT-1715640000123",
-  "suggested_response": "Thank you for reporting the technical issue. We understand this is affecting your students' access. Our technical team will investigate immediately...",
-  "based_on_category": "Technical Issue",
-  "generated_at": "2024-05-13T12:00:00.000Z"
-}
-```
-
-### CRM Integration
-
-#### Sync Ticket to Salesforce
-```http
-POST /crm/sync/{ticket_id}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "ticket_id": "TKT-1715640000123",
-  "synced_to_salesforce": true,
-  "case_number": "Case-001",
-  "timestamp": "2024-05-13T12:00:00.000Z"
-}
-```
-
-#### Get CRM Records
-```http
-GET /crm/records
-```
-
-Returns all synced CRM records.
+Simulates syncing ticket data into a Salesforce-style CRM structure.
 
 ## 🏗️ System Architecture
 
-The system is built as four independent modules that work together in a pipeline:
+I designed the application around four independent modules.
 
-### Module 1: Classification & Routing
-**Purpose**: Automatically categorize incoming tickets and assign them to the right team.
+This keeps the project modular, easier to maintain, and closer to how real operational systems are structured.
 
-**Technical Details**: 
-- Rule-based matcher on ticket description keywords
-- Returns category, priority, queue assignment, and SLA hours
-- Could be replaced with an LLM later without breaking downstream modules
+**Module 1 — Classification & Routing**
 
-**Real-World Context**: This is how Zendesk routing automations work — matching text patterns to business rules.
+Responsible for:
 
-### Module 2: Summarization
-**Purpose**: Generate a quick brief for support agents — "what is this ticket about in 30 seconds?"
+- Ticket categorization
+- Priority detection
+- Queue assignment
+- SLA calculation
 
-**Technical Details**:
-- Extracts key fields from ticket JSON (category, priority, school name)
-- Combines them into human-readable narrative
-- Called on-demand when agent opens a ticket
+The classifier uses rule-based matching on ticket keywords.
 
-**Real-World Context**: Agent dashboards often show auto-generated summaries to reduce reading time on high-volume tickets.
+This module could later be swapped with a real LLM without affecting downstream workflows.
 
-### Module 3: Response Suggestion  
-**Purpose**: Suggest a template response based on ticket category, reducing manual typing.
+**Module 2 — Summarization**
 
-**Technical Details**:
-- Maps ticket category to predefined response templates
-- Agents can use as-is, edit, or discard
-- Shows up in the agent dashboard
+Generates short agent-friendly ticket summaries.
 
-**Real-World Context**: Many support platforms (Zendesk, Intercom) now include AI-assisted response suggestions to improve first-response time metrics.
+Instead of forcing agents to read large descriptions immediately, the system creates a quick operational briefing using ticket metadata.
 
-### Module 4: CRM Sync
-**Purpose**: Push ticket data to downstream systems (Salesforce) for record-keeping and case management.
+**Module 3 — Response Suggestions**
 
-**Technical Details**:
-- Transforms internal ticket format to Salesforce case format
-- Stores synced records in `/data/crm_records.json`
-- Could easily connect to real Salesforce REST API
+Suggests pre-written responses depending on ticket category.
 
-**Real-World Context**: Two-way sync between support platforms and CRM systems is a core integration pattern.
+Agents can:
+
+- Use the response directly
+- Edit it
+- Ignore it completely
+
+The goal here is simply reducing repetitive typing.
+
+**Module 4 — CRM Sync**
+
+Transforms ticket data into a CRM-style structure for downstream systems.
+
+Currently this writes into local JSON storage, but the architecture is designed so it could later connect to:
+
+- Salesforce APIs
+- Zendesk APIs
+- External webhook systems
+- Database layers
 
 ## 📁 Project Structure
 
 ```
 ai-support/
-├── index.js                 # Main server file
-├── package.json            # Project dependencies
-├── package-lock.json       # Dependency versions
-├── public/                 # Frontend files
-│   ├── portal.html        # Customer support portal
-│   ├── agent-dashboard.html    # Agent management interface
-│   └── dashboard.html     # Admin analytics dashboard
-├── data/                   # Data storage
-│   ├── tickets.json       # Ticket storage
-│   └── crm_records.json   # Salesforce CRM records
-├── logs/                   # Application logs
-│   ├── automation.json    # Automation events log
-│   ├── audit.json         # Audit trail
-│   └── webhooks.json      # Webhook activity log
-└── README.md              # This file
+├── index.js
+├── package.json
+├── public/
+│   ├── portal.html
+│   ├── agent-dashboard.html
+│   └── dashboard.html
+├── data/
+│   ├── tickets.json
+│   └── crm_records.json
+├── logs/
+│   ├── automation.json
+│   ├── audit.json
+│   └── webhooks.json
+└── README.md
 ```
 
-## 🎓 Ticket Categories & SLA
+## 🎓 Ticket Categories & SLA Logic
 
-| Category | Priority | Queue | SLA Hours |
-|----------|----------|-------|-----------|
-| Technical Issue | High | technical_support | 2 |
-| Billing | Medium | finance_team | 4 |
-| Results Inquiry | Medium | school_support | 6 |
-| Candidate Registration | Medium | registration_team | 8 |
-| General Inquiry | Low | general_support | 24 |
-
-## 📊 Data Models
-
-### Ticket Schema
-```json
-{
-  "ticket_id": "TKT-1715640000123",
-  "school_name": "Lincoln High School",
-  "subject": "Cannot access portal",
-  "issue_type": "Technical Issue",
-  "description": "Student unable to login...",
-  "ai_category": "Technical Issue",
-  "ai_priority": "High",
-  "ai_queue": "technical_support",
-  "final_priority": "High",
-  "sla_hours": 2,
-  "sla_deadline": "2024-05-13T14:00:00.000Z",
-  "status": "open",
-  "submitted_at": "2024-05-13T12:00:00.000Z",
-  "agent_assigned": null,
-  "summary": null,
-  "resolution": null
-}
-```
-
-### Automation Log Schema
-```json
-{
-  "timestamp": "2024-05-13T12:00:00.000Z",
-  "action": "ticket_created",
-  "ticket_id": "TKT-1715640000123",
-  "ai_classification": "Technical Issue",
-  "routed_to": "technical_support",
-  "sla_hours": 2
-}
-```
+| Category | Priority | Queue | SLA |
+|----------|----------|-------|-----|
+| Technical Issue | High | technical_support | 2h |
+| Billing | Medium | finance_team | 4h |
+| Results Inquiry | Medium | school_support | 6h |
+| Candidate Registration | Medium | registration_team | 8h |
+| General Inquiry | Low | general_support | 24h |
 
 ## 🔧 Technologies Used
 
