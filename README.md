@@ -398,7 +398,6 @@ This project was built to demonstrate how AI can be **embedded into real custome
 
 ---
 
-**Version**: 1.0 Portfolio Edition  
-**Built**: 2024  
+
 **Author**: [Jay Magayanes](https://github.com/jaymagayanes)  
-**Repository**: https://github.com/jaymagayanes/ai_support
+
