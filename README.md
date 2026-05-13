@@ -1,13 +1,11 @@
-# AI-Powered Support Operations Portal
+# AI Sample Project: Zendesk | Operations 
 
 This project demonstrates how AI-driven logic can be embedded into customer support workflows.
 
-## 🎥 Demo
-
-This application demonstrates AI-powered ticket classification, SLA calculation, and automated workflow routing in a simulated CX environment.
-
  
----
+ 🎥 Demo
+
+ ---
 
 ## 🚀 Features
 
