@@ -7,8 +7,9 @@ Instead of focusing on "hype AI," I wanted to explore how automation can realist
 
 The system classifies incoming tickets, generates summaries for agents, suggests responses, routes issues to the correct queue, and simulates CRM synchronization — all within a lightweight full-stack environment.
 
-## - 🎥 [Watch Demo Video](https://drive.google.com/file/d/1CHXhvatkTeQonBZUw5ubu4WGvb3ElQ5I/view?usp=sharing)  
-  Walkthrough of the system features and usage.
+## - Walkthrough of the system features and usage.
+🎥 [Watch Demo Video](https://drive.google.com/file/d/1CHXhvatkTeQonBZUw5ubu4WGvb3ElQ5I/view?usp=sharing)  
+  
 
 ## 🎯 Why I Built This
 
